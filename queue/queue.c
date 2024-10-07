@@ -72,6 +72,18 @@ void dequeue(Queue *queue) {
 
   queue->front++;
   queue->size--;
+  
+  if (isEmpty(queue)) {
+    queue->front = 0;
+    queue->rear = 0;
+  }
+}
+
+int peek(Queue *queue) {
+  if (isEmpty(queue)) {
+    return -1;
+  }
+  return queue->data[queue->front];
 }
 
 int main() {
@@ -87,6 +99,9 @@ int main() {
   dequeue(&queue); // [2,3,6]
 
   printf_queue(queue);
+
+  // Using Peek
+  printf("Peek: %d\n", peek(&queue));
 
   free(queue.data);
   return 0;
