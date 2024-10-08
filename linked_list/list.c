@@ -69,7 +69,18 @@ List *lst_remove(List *l, int value) {
   return l;
 }
 
+List *lst_search(List *l, int value) {
+  List *current = l;
 
+  while (current != NULL) {
+    if (current->value == value) {
+      return current;
+    }
+    current = current->next;
+  }
+
+  return NULL;
+}
 
 void lst_print(List *l) {
   if (lst_isEmpty(l)) {
@@ -109,6 +120,14 @@ int main() {
   list = lst_remove(list, 99);
 
   lst_print(list);
+
+  List *element = lst_search(list, 22);
+
+  if (element != NULL) {
+    printf("Element %d found in the list.\n", element->value);
+  } else {
+    printf("Element not found in the list.\n");
+  }
 
   lst_free(list);
 
