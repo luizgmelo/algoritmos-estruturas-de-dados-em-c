@@ -41,6 +41,34 @@ List *lst_insert(List *l, int v) {
   return l;
 }
 
+List *lst_remove(List *l, int value) {
+  List *previous = NULL;
+  List *current = l;
+
+  if (l == NULL) {
+    return l;
+  }
+
+  if (current->value == value) {
+    l = current->next;
+    free(current);
+    return l;
+  }
+
+  while (current->next != NULL) {
+    previous = current;
+    current = current->next;
+
+    if (current->value == value) {
+      previous->next = current->next;
+      free(current);
+      return l;
+    }
+  }
+
+  return l;
+}
+
 
 
 void lst_print(List *l) {
@@ -75,6 +103,10 @@ int main() {
   list = lst_insert(list, 32);
   list = lst_insert(list, 22);
   list = lst_insert(list, 99);
+
+  lst_print(list);
+
+  list = lst_remove(list, 99);
 
   lst_print(list);
 

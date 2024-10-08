@@ -19,7 +19,7 @@ void lst_print(List *l);
 List *lst_search(List *l, int v);
 
 // função que remove um elemento da lista
-void lst_remove(List **l, int v);
+List *lst_remove(List *l, int v);
 
 // função que libera memória alocada para lista
 void lst_free(List *l);
