@@ -7,7 +7,6 @@ struct list {
 
 int lst_isEmpty(List *l) {
   if (l == NULL) {
-    printf("List is empty!\n");
     return 1;
   }
   return 0;
@@ -109,6 +108,12 @@ void lst_free(List *l) {
 
 int main() {
   List *list = lst_create();
+
+  if (lst_isEmpty(list)) {
+    printf("List is empty!\n");
+  } else {
+    printf("List is not empty!\n");
+  }
   
   list = lst_insert(list, 20);
   list = lst_insert(list, 32);
@@ -116,6 +121,12 @@ int main() {
   list = lst_insert(list, 99);
 
   lst_print(list);
+
+  if (lst_isEmpty(list)) {
+    printf("List is empty!\n");
+  } else {
+    printf("List is not empty!\n");
+  }
 
   list = lst_remove(list, 99);
 
