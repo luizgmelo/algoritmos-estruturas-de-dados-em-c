@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NUM_BUCKETS 10
+#define TABLE_SIZE 10
 
 typedef struct hash Hash;
 typedef unsigned long ul;
