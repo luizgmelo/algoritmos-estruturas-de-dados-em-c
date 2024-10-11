@@ -55,10 +55,41 @@ void ht_set(ht_t *ht, char *pKey, int value) {
  
   if (entry == NULL) {
     ht->pEntries[hash] = ht_pair(pKey, value);
+    return;
+  }
+
+  entry_t *prev = entry;
+
+  while (entry != NULL) {
+    if (strcmp(entry->pKey, pKey) == 0) {
+      // Match found
+      entry->value = value;
+      return;
+    }
+
+    prev = entry;
+    entry = entry->next;
+  }
+
+  prev->next = ht_pair(pKey, value);
+}
+
   }
 }
 
 int main() {
   ht_t *ht = ht_create();
+
+  ht_set(ht, "guilherme", 19);
+  ht_set(ht, "luiz", 12);
+  ht_set(ht, "roberto", 92);
+
+  // update "guilherme"
+  ht_set(ht, "guilherme", 48);
+
+  ht_set(ht, "fabricio", 53);
+  ht_set(ht, "luana", 17);
+  ht_set(ht, "jaqueline", 29);
+
   return 0;
 }
