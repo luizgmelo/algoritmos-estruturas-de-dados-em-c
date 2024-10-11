@@ -140,6 +140,27 @@ void ht_del(ht_t *ht, char *pKey) {
   idx++;
 }
 
+void ht_dump(ht_t *ht) {
+  for (int i = 0; i < TABLE_SIZE; i++) {
+    entry_t *entry = ht->pEntries[i];
+
+    if (entry == NULL) {
+      continue;
+    }
+
+    printf("slot[%1d]:",i);
+
+    for(;;) {
+      printf("%s=%d ",entry->pKey, entry->value);
+
+      if (entry->next == NULL) {
+        break;
+      }
+
+      entry = entry->next;
+    }
+
+    printf("\n");
   }
 }
 
@@ -170,6 +191,8 @@ int main() {
 
   printf("ht['luiz']= %d\n", ht_get(ht, "luiz")); // -1
   printf("ht['roberto']= %d\n", ht_get(ht, "roberto")); // -1
+
+  ht_dump(ht);
 
   return 0;
 }
