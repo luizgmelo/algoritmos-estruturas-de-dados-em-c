@@ -74,6 +74,26 @@ void ht_set(ht_t *ht, char *pKey, int value) {
   prev->next = ht_pair(pKey, value);
 }
 
+int ht_get(ht_t *ht, char *pKey) {
+  ul hash = djb2(pKey);
+
+  entry_t *entry = ht->pEntries[hash];
+
+  if (entry == NULL) {
+    return -1;
+  }
+
+  while (entry != NULL) {
+    if (strcmp(entry->pKey, pKey) == 0) {
+      return entry->value;
+    }
+
+    entry = entry->next;
+  }
+
+  return -1;
+}
+
   }
 }
 
@@ -90,6 +110,13 @@ int main() {
   ht_set(ht, "fabricio", 53);
   ht_set(ht, "luana", 17);
   ht_set(ht, "jaqueline", 29);
+
+  printf("HASH: %lu\n", djb2("jaqueline"));
+
+  // get "guilherme", "luiz", "roberto"
+  printf("ht['guilherme']=%d\n", ht_get(ht, "guilherme"));
+  printf("ht['luiz']=%d\n", ht_get(ht, "luiz"));
+  printf("ht['roberto']=%d\n", ht_get(ht, "roberto"));
 
   return 0;
 }
