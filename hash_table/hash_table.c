@@ -94,6 +94,52 @@ int ht_get(ht_t *ht, char *pKey) {
   return -1;
 }
 
+void ht_del(ht_t *ht, char *pKey) {
+  ul hash = djb2(pKey);
+
+  entry_t *entry = ht->pEntries[hash];
+
+  if (entry == NULL) {
+    return;
+  }
+
+  entry_t *prev = entry;
+  int idx = 0;
+
+  while (entry != NULL) {
+    if (strcmp(entry->pKey, pKey) == 0) {
+      // first item and next is null
+      if (entry->next == NULL && idx == 0) {
+        ht->pEntries[hash] = NULL;
+      }
+
+      // first item and next is not null
+      if (entry->next != NULL && idx == 0) {
+        ht->pEntries[hash] = entry->next;
+      }
+      
+      // last item
+      if (entry->next == NULL && idx != 0) {
+        prev->next = NULL;
+      }
+
+      // middle item
+      if (entry->next != NULL && idx != 0) {
+        prev->next = entry->next;
+      }
+      
+      free(entry->pKey);
+      free(entry);
+
+      return;
+    }
+  }
+
+  prev = entry;
+  entry = entry->next;
+  idx++;
+}
+
   }
 }
 
@@ -117,6 +163,13 @@ int main() {
   printf("ht['guilherme']=%d\n", ht_get(ht, "guilherme"));
   printf("ht['luiz']=%d\n", ht_get(ht, "luiz"));
   printf("ht['roberto']=%d\n", ht_get(ht, "roberto"));
+
+  // remove "luiz", "roberto"
+  ht_del(ht, "luiz");
+  ht_del(ht, "roberto");
+
+  printf("ht['luiz']= %d\n", ht_get(ht, "luiz")); // -1
+  printf("ht['roberto']= %d\n", ht_get(ht, "roberto")); // -1
 
   return 0;
 }
