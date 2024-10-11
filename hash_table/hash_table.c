@@ -1,11 +1,9 @@
 #include "hash_table.h"
-#include <cstdio>
-#include <cstring>
 
 typedef struct entry_t {
   char *pKey;
   int value;
-  struct list *next;
+  struct entry_t *next;
 } entry_t;
 
 typedef struct {
@@ -38,10 +36,16 @@ ul djb2(char *k) {
 entry_t *ht_pair(char *pKey, int value) {
   // allocate entry
   entry_t *entry = malloc(sizeof(entry_t)*1);
-  entry->pKey = malloc(strlen(key)+1);
+  entry->pKey = malloc(strlen(pKey)+1);
+
+  // set key and value
+  strcpy(entry->pKey, pKey);
   entry->value = value;
 
-  // not finished
+  // next start out null but may be set later on
+  entry->next = NULL;
+
+  return entry;
 }
 
 void ht_set(ht_t *ht, char *pKey, int value) {
